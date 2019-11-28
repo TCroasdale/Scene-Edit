@@ -1,0 +1,16 @@
+{
+  "name": "scene-edit",
+  "version": "0.1.0",
+  "description": "An Electron App for Editing Scenes",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^7.1.2",
+    "three": "^0.111.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Tom Croasdale",
+  "license": "ISC"
+}
