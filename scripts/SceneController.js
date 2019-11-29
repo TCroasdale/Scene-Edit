@@ -1,29 +1,38 @@
-var THREE = require('three')
+var THREE = window.THREE
 
 var SceneController = function () {
   var scene
-  var camera
+
   // var canvasElem
   var bodyElem
   var renderer
+  var mCameraController
+  var clock
+
   var animate = function () {
+    const delta = clock.getDelta()
     window.requestAnimationFrame(animate)
-    renderer.render(scene, camera)
+    renderer.render(scene, mCameraController.getCamera())
+
+    mCameraController.onUpdate(delta)
   }
 
   return {
     scene: scene,
-    camera: camera,
     startController: (appBody) => {
+      clock = new THREE.Clock()
+
       bodyElem = appBody
       const winWidth = appBody.clientWidth
       const winHeight = appBody.clientHeight
-      console.log(winWidth, winHeight)
+
       scene = new THREE.Scene()
-      camera = new THREE.PerspectiveCamera(75, winWidth / winHeight, 0.1, 1000)
+      mCameraController = new window.CameraController()
+      mCameraController.init(winWidth / winHeight)
 
       renderer = new THREE.WebGLRenderer({ antialias: true })
       renderer.setSize(winWidth, winHeight)
+      mCameraController.setUpControls(renderer)
 
       document.body.appendChild(renderer.domElement)
       // canvasElem = renderer.domElement
@@ -32,17 +41,14 @@ var SceneController = function () {
       var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
       var cube = new THREE.Mesh(geometry, material)
       scene.add(cube)
-
-      camera.position.z = 5
     },
-    animate: () => {
+    startRenderLoop: () => {
       animate()
     },
     resize: () => {
       const winWidth = bodyElem.clientWidth
       const winHeight = bodyElem.clientHeight
-      camera.aspect = winWidth / winHeight
-      camera.updateProjectionMatrix()
+      mCameraController.onResize(winWidth / winHeight)
       renderer.setSize(winWidth, winHeight)
     }
   }

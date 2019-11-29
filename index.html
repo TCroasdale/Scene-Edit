@@ -18,12 +18,14 @@
   <script src="scripts/SceneController.js" type="module"></script>
   <script type="module" defer>
       (() => {
-        let SceneController = require('./scripts/SceneController.js')
+        window.THREE = require('three')
+        window.SceneController = require('./scripts/SceneController.js')
+        window.CameraController = require('./scripts/CameraController.js')
         
         let a = new SceneController() 
         window.addEventListener('resize', a.resize)
         a.startController(document.getElementById('app-body'))
-        a.animate()
+        a.startRenderLoop()
       })()
   </script>
 </html>
