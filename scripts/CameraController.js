@@ -1,9 +1,9 @@
 var THREE = window.THREE
-require('three/examples/js/controls/FlyControls.js')
+require('three/examples/js/controls/OrbitControls.js')
 
 var CameraController = function () {
   var mCamera
-  var mFlyController
+  var mOrbitController
   return {
     getCamera: () => { return mCamera },
     init: (aspect) => {
@@ -11,16 +11,16 @@ var CameraController = function () {
       mCamera.position.z = 5
     },
     setUpControls: (renderer) => {
-      mFlyController = new THREE.FlyControls(mCamera, renderer.domElement)
-      mFlyController.movementSpeed = 1.0
-      mFlyController.domElement = renderer.domElement
-      mFlyController.rollSpeed = Math.PI / 6
-      mFlyController.autoForward = false
-      mFlyController.dragToLook = true
+      mOrbitController = new THREE.OrbitControls(mCamera, renderer.domElement)
+      mOrbitController.keys = {
+        LEFT: 65, // left arrow
+        UP: 87, // up arrow
+        RIGHT: 68, // right arrow
+        BOTTOM: 83 // down arrow
+      }
     },
     onUpdate: (dT) => {
-      mFlyController.update(dT)
-      console.log(mCamera.position)
+      mOrbitController.update(dT)
     },
     onResize: (aspect) => {
       mCamera.aspect = aspect
