@@ -5,9 +5,9 @@
     <title>Hello World!</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" src="styles/style.css">
+    <link rel="stylesheet" href="styles/style.css">
   </head>
-  <body style="margin: 0;">
+  <body id="app-body">
     <div id="3js-container">
 
     </div>
@@ -16,13 +16,14 @@
     </div>
   </body>
   <script src="scripts/SceneController.js" type="module"></script>
-  <script type="module">
-      let SceneController = require('./scripts/SceneController.js')
-
-      let a = new SceneController() 
-      window.addEventListener('resize', a.resize)
-      a.startController()
-      a.animate()
-
+  <script type="module" defer>
+      (() => {
+        let SceneController = require('./scripts/SceneController.js')
+        
+        let a = new SceneController() 
+        window.addEventListener('resize', a.resize)
+        a.startController(document.getElementById('app-body'))
+        a.animate()
+      })()
   </script>
 </html>

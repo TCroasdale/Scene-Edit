@@ -5,11 +5,12 @@
   "main": "main.js",
   "dependencies": {
     "electron": "^7.1.2",
+    "standard": "^14.3.1",
     "three": "^0.111.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "electron ."
+    "start": "standard --fix && electron ."
   },
   "author": "Tom Croasdale",
   "license": "ISC"
