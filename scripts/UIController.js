@@ -7,12 +7,18 @@ var UIController = function (transformController) {
   var gridIncreaseBtn = document.getElementById('tool-moregrid-btn')
   var toolbar = document.getElementById('toolbar-container')
   var hideToolbarBtn = document.getElementById('tool-hide-btn')
+  var inspector = document.getElementById('inspector-container')
+  var hideInspectorBtn = document.getElementById('inspector-hide-btn')
 
   var currGridSize = 0
   var translateGrids = [1, 2, 5, 10, 25, 50]
 
   hideToolbarBtn.addEventListener('click', () => {
     toolbar.classList.toggle('hidden')
+  })
+  hideInspectorBtn.addEventListener('click', () => {
+    inspector.classList.toggle('hidden')
+    hideInspectorBtn.textContent = hideInspectorBtn.textContent === "<" ? ">" : "<"
   })
 
   var onSwitchToTranslate = function () { transformController.setMode('translate') }
@@ -54,7 +60,11 @@ var UIController = function (transformController) {
   return {
     setTranslateFN: (fn) => { onSwitchToTranslate = fn },
     setRotateFN: (fn) => { onSwitchToRotate = fn },
-    setScaleFN: (fn) => { onSwitchToScale = fn }
+    setScaleFN: (fn) => { onSwitchToScale = fn },
+    showInspector: () => {
+      inspector.classList.remove('hidden')
+      hideInspectorBtn.textContent = hideInspectorBtn.textContent === "<" ? ">" : "<"
+    }
   }
 }
 

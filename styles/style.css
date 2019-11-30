@@ -13,19 +13,36 @@ canvas {
 
 #inspector-container {
     position: fixed;
-    top: 4px;
-    right: 4px;
-    width: 25%;
-    bottom: 4px;
+    top: 0px;
+    right: 0px;
+    width: 400px;
+    bottom: 0px;
     min-width: 150px;
     max-width: 550px;
 
+    padding-left: 4px;
+    padding-right: 4px;
+
     background-color: lightgray;
-    transition: position 0.1s linear;
+    transition: right 0.1s linear;
 }
 #inspector-container.hidden {
-    right: -550px;
+    right: -400px;
 }
+
+#inspector-container.hidden #inspector-hide-btn.always-visible{
+    transform: translateX(-14px)
+}
+
+#inspector-container #inspector-hide-btn {
+    position: relative;
+    height: 100%;
+    top: 0px;
+    left: -4px;
+    width: 16px;
+    transition: transform 0.1s linear;
+}
+
 
 
 #toolbar-container {
@@ -43,7 +60,7 @@ canvas {
     transition: top 0.1s linear, bottom 0.1s linear;
 }
 
-#toolbar-container #tool-hide-btn {
+#toolbar-container .always-visible {
     transition: transform 0.1s linear;
 }
 
@@ -55,7 +72,7 @@ canvas {
 #toolbar-container.fix-top.hidden {
     top: -52px;
 }
-#toolbar-container.fix-top.hidden #tool-hide-btn{
+#toolbar-container.fix-top.hidden .always-visible{
     transform: translateY(56px);
 }
 
@@ -66,7 +83,7 @@ canvas {
 #toolbar-container.fix-bottom.hidden {
     bottom: -52px;
 }
-#toolbar-container.fix-bottom.hidden #tool-hide-btn{
+#toolbar-container.fix-bottom.hidden .always-visible{
     transform: translateY(-56px);
 }
 
