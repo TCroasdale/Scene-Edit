@@ -5,16 +5,19 @@ var UIController = function (transformController) {
   var gridDecreaseBtn = document.getElementById('tool-lessgrid-btn')
   var gridToggleBtn = document.getElementById('tool-togglegrid-btn')
   var gridIncreaseBtn = document.getElementById('tool-moregrid-btn')
+  var toolbar = document.getElementById('toolbar-container')
+  var hideToolbarBtn = document.getElementById('tool-hide-btn')
 
   var currGridSize = 0
   var translateGrids = [1, 2, 5, 10, 25, 50]
 
+  hideToolbarBtn.addEventListener('click', () => {
+    toolbar.classList.toggle('hidden')
+  })
+
   var onSwitchToTranslate = function () { transformController.setMode('translate') }
   var onSwitchToRotate = function () { transformController.setMode('rotate') }
   var onSwitchToScale = function () { transformController.setMode('scale') }
-  //   var onGridDecrease = function () { transformController.setMode('translate') }
-  //   var onGridIncrease = function () { transformController.setMode('rotate') }
-  //   var onToggleGrid = function () { transformController.setMode('scale') }
 
   translateBtn.addEventListener('click', onSwitchToTranslate)
   rotateBtn.addEventListener('click', onSwitchToRotate)

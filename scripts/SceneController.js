@@ -69,7 +69,7 @@ var SceneController = function () {
       mScene.add(cube)
 
       window.addEventListener('mousemove', onMouseMove, false)
-      window.addEventListener('click', onClick, false)
+      mRenderer.domElement.addEventListener('click', onClick, false)
 
       mTransformController = new THREE.TransformControls(mCameraController.getCamera(), mRenderer.domElement)
       // control.addEventListener( 'change', render );

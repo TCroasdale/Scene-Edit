@@ -13,10 +13,10 @@ canvas {
 
 #inspector-container {
     position: fixed;
-    top: 0px;
-    right: 0px;
+    top: 4px;
+    right: 4px;
     width: 25%;
-    bottom: 0px;
+    bottom: 4px;
     min-width: 150px;
     max-width: 550px;
 
@@ -24,14 +24,9 @@ canvas {
     transition: position 0.1s linear;
 }
 #inspector-container.hidden {
-    position: fixed;
-    top: 0px;
-    right: -25%;
-    width: 25%;
-    bottom: 0px;
-    min-width: 150px;
-    max-width: 550px;
+    right: -550px;
 }
+
 
 #toolbar-container {
     margin: 0;
@@ -42,18 +37,37 @@ canvas {
     position: fixed;
     
     height: 48px;
-    width: 100%;
+    width: 50%;
     
     background-color: lightgray;
+    transition: top 0.1s linear, bottom 0.1s linear;
+}
+
+#toolbar-container #tool-hide-btn {
+    transition: transform 0.1s linear;
 }
 
 #toolbar-container.fix-top {
-    top: 0px;
-    left: 0px;
+    top: 4px;
+    left: 4px;
 }
+
+#toolbar-container.fix-top.hidden {
+    top: -52px;
+}
+#toolbar-container.fix-top.hidden #tool-hide-btn{
+    transform: translateY(56px);
+}
+
 #toolbar-container.fix-bottom {
-    bottom: 0px;
-    left: 0px;
+    bottom: 4px;
+    left: 4px;
+}
+#toolbar-container.fix-bottom.hidden {
+    bottom: -52px;
+}
+#toolbar-container.fix-bottom.hidden #tool-hide-btn{
+    transform: translateY(-56px);
 }
 
 #toolbar-container li {
