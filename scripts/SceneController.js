@@ -36,6 +36,9 @@ var SceneController = function () {
     if (intersects.length > 0) {
       mSelectedObject = intersects[0].object
       mTransformController.attach(mSelectedObject)
+    } else {
+      mSelectedObject = undefined
+      mTransformController.attach(undefined)
     }
   }
 

@@ -4,5 +4,5 @@ I made this so I could easily alter the background of my [website](https://tomcr
 
 # Build + Run
 ## Run from cmd
-1. > npm i
-2. > npm run start
+1. ``` npm i ```
+2. ``` npm run start ```

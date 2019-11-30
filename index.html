@@ -10,10 +10,20 @@
   <body id="app-body">
     <div id="inspector-container">
     </div>
+    <ul id="toolbar-container">
+        <li class="button">L</li>
+        <li class="button">R</li>
+        <li class="button">S</li>
+        <li class="button">G-</li>
+        <li class="button">G</li>
+        <li class="button">G+</li>
+
+    </ul>
   </body>
   <script src="scripts/SceneController.js" type="module"></script>
   <script type="module" defer>
       (() => {
+        require('material-design-icons')
         window.THREE = require('three')
         window.SceneController = require('./scripts/SceneController.js')
         window.CameraController = require('./scripts/CameraController.js')
