@@ -8,6 +8,7 @@ var SceneController = function () {
   var mBodyElem
   var mRenderer
   var mCameraController
+  var mUIController
   var mClock
   var mMouse = new THREE.Vector2(0, 0)
   var mRaycaster = new THREE.Raycaster()
@@ -75,6 +76,9 @@ var SceneController = function () {
       mTransformController.addEventListener('dragging-changed', function (event) {
         mCameraController.setControlEnabled(!event.value)
       })
+      mUIController = new window.UIController(mTransformController)
+      console.log(mUIController)
+
       mScene.add(mTransformController)
     },
     startRenderLoop: () => {

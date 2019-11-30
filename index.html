@@ -10,13 +10,13 @@
   <body id="app-body">
     <div id="inspector-container">
     </div>
-    <ul id="toolbar-container">
-        <li class="button">L</li>
-        <li class="button">R</li>
-        <li class="button">S</li>
-        <li class="button">G-</li>
-        <li class="button">G</li>
-        <li class="button">G+</li>
+    <ul id="toolbar-container" class="fix-bottom">
+        <li id="tool-translate-btn" class="button">L</li>
+        <li id="tool-rotate-btn" class="button">R</li>
+        <li id="tool-scale-btn" class="button">S</li>
+        <li id="tool-lessgrid-btn" class="button">G-</li>
+        <li id="tool-togglegrid-btn" class="button">G</li>
+        <li id="tool-moregrid-btn" class="button">G+</li>
 
     </ul>
   </body>
@@ -27,6 +27,7 @@
         window.THREE = require('three')
         window.SceneController = require('./scripts/SceneController.js')
         window.CameraController = require('./scripts/CameraController.js')
+        window.UIController = require('./scripts/UIController.js')
         
         let a = new SceneController() 
         window.addEventListener('resize', a.resize)

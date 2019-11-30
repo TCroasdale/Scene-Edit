@@ -40,12 +40,20 @@ canvas {
     padding-left: 4px;
     padding-right: 4px;
     position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 50%;
+    
     height: 48px;
+    width: 100%;
     
     background-color: lightgray;
+}
+
+#toolbar-container.fix-top {
+    top: 0px;
+    left: 0px;
+}
+#toolbar-container.fix-bottom {
+    bottom: 0px;
+    left: 0px;
 }
 
 #toolbar-container li {
