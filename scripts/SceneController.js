@@ -1,57 +1,87 @@
 var THREE = window.THREE
+require('three/examples/js/controls/TransformControls.js')
 
 var SceneController = function () {
-  var scene
+  var mScene
 
   // var canvasElem
-  var bodyElem
-  var renderer
+  var mBodyElem
+  var mRenderer
   var mCameraController
-  var clock
-
-  // var selectedObject
+  var mClock
+  var mMouse = new THREE.Vector2(0, 0)
+  var mRaycaster = new THREE.Raycaster()
+  var mSelectedObject
+  var mTransformController
 
   var animate = function () {
-    const delta = clock.getDelta()
+    const delta = mClock.getDelta()
     window.requestAnimationFrame(animate)
-    renderer.render(scene, mCameraController.getCamera())
+    mRenderer.render(mScene, mCameraController.getCamera())
 
     mCameraController.onUpdate(delta)
   }
+  var onMouseMove = function (event) {
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+    mMouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    mMouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+  }
+
+  var onClick = function (event) {
+    // calculate objects intersecting the picking ray
+    // update the picking ray with the camera and mouse position
+    mRaycaster.setFromCamera(mMouse, mCameraController.getCamera())
+    var intersects = mRaycaster.intersectObjects(mScene.children)
+    if (intersects.length > 0) {
+      mSelectedObject = intersects[0].object
+      mTransformController.attach(mSelectedObject)
+    }
+  }
 
   return {
-    scene: scene,
+    scene: mScene,
     startController: (appBody) => {
-      clock = new THREE.Clock()
+      mClock = new THREE.Clock()
 
-      bodyElem = appBody
+      mBodyElem = appBody
       const winWidth = appBody.clientWidth
       const winHeight = appBody.clientHeight
 
-      scene = new THREE.Scene()
+      mScene = new THREE.Scene()
       mCameraController = new window.CameraController()
       mCameraController.init(winWidth / winHeight)
 
-      renderer = new THREE.WebGLRenderer({ antialias: true })
-      renderer.setSize(winWidth, winHeight)
-      mCameraController.setUpControls(renderer)
+      mRenderer = new THREE.WebGLRenderer({ antialias: true })
+      mRenderer.setSize(winWidth, winHeight)
+      mCameraController.setUpControls(mRenderer)
 
-      document.body.appendChild(renderer.domElement)
+      document.body.appendChild(mRenderer.domElement)
       // canvasElem = renderer.domElement
 
       var geometry = new THREE.BoxGeometry(1, 1, 1)
       var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
       var cube = new THREE.Mesh(geometry, material)
-      scene.add(cube)
+      mScene.add(cube)
+
+      window.addEventListener('mousemove', onMouseMove, false)
+      window.addEventListener('click', onClick, false)
+
+      mTransformController = new THREE.TransformControls(mCameraController.getCamera(), mRenderer.domElement)
+      // control.addEventListener( 'change', render );
+      mTransformController.addEventListener('dragging-changed', function (event) {
+        mCameraController.setControlEnabled(!event.value)
+      })
+      mScene.add(mTransformController)
     },
     startRenderLoop: () => {
       animate()
     },
     resize: () => {
-      const winWidth = bodyElem.clientWidth
-      const winHeight = bodyElem.clientHeight
+      const winWidth = mBodyElem.clientWidth
+      const winHeight = mBodyElem.clientHeight
       mCameraController.onResize(winWidth / winHeight)
-      renderer.setSize(winWidth, winHeight)
+      mRenderer.setSize(winWidth, winHeight)
     }
   }
 }

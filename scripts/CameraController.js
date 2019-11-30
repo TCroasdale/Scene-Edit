@@ -25,6 +25,9 @@ var CameraController = function () {
     onResize: (aspect) => {
       mCamera.aspect = aspect
       mCamera.updateProjectionMatrix()
+    },
+    setControlEnabled: (state) => {
+      mOrbitController.enabled = state
     }
   }
 }
