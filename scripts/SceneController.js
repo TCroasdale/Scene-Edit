@@ -39,7 +39,7 @@ var SceneController = function () {
       mTransformController.attach(mSelectedObject)
     } else {
       mSelectedObject = undefined
-      mTransformController.attach(undefined)
+      mTransformController.detach()
     }
   }
 
