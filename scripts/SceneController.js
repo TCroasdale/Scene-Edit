@@ -9,6 +9,8 @@ var SceneController = function () {
   var mCameraController
   var clock
 
+  // var selectedObject
+
   var animate = function () {
     const delta = clock.getDelta()
     window.requestAnimationFrame(animate)

@@ -8,4 +8,25 @@ canvas {
     width: 100vw;
     height: 100vh;
     display: block;
+    z-index: -1;
+}
+
+#inspector-container {
+    position: fixed;
+    top: 5px;
+    right: 15px;
+    width: 25%;
+    bottom: 15px;
+    border-radius: 10px;
+    min-width: 150px;
+    max-width: 550px;
+    
+    background-color: white;
+    opacity: 0.8;
+    transition: opacity 0.1s linear;
+}
+
+
+#inspector-container:hover {
+    opacity: 1.0;
 }
