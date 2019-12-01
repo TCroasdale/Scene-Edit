@@ -18,7 +18,7 @@ var UIController = function (transformController) {
   })
   hideInspectorBtn.addEventListener('click', () => {
     inspector.classList.toggle('hidden')
-    hideInspectorBtn.textContent = hideInspectorBtn.textContent === "<" ? ">" : "<"
+    hideInspectorBtn.textContent = hideInspectorBtn.textContent === '<' ? '>' : '<'
   })
 
   var onSwitchToTranslate = function () { transformController.setMode('translate') }
@@ -63,7 +63,7 @@ var UIController = function (transformController) {
     setScaleFN: (fn) => { onSwitchToScale = fn },
     showInspector: () => {
       inspector.classList.remove('hidden')
-      hideInspectorBtn.textContent = hideInspectorBtn.textContent === "<" ? ">" : "<"
+      hideInspectorBtn.textContent = hideInspectorBtn.textContent === '<' ? '>' : '<'
     }
   }
 }
