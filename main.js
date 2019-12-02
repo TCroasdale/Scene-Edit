@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
-
+const ipc = require('electron').ipcMain
+const dialog = require('electron').dialog
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -9,13 +10,14 @@ function createWindow () {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    title: 'Scene Editor',
     webPreferences: {
       nodeIntegration: true
     }
   })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  win.loadFile('app/index.html')
 
   // Open the DevTools.
   // win.webContents.openDevTools()
@@ -49,4 +51,25 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+})
+
+ipc.on('open-file-dialog', (event) => {
+  dialog.showOpenDialog(win,
+    {
+      properties: ['openFile'],
+      filters: [{ name: 'GL Transmission Files', extensions: ['gltf', 'glb'] }]
+    })
+    .then((fileNames) => {
+      console.log('us this work')
+      // fileNames is an array that contains all the selected
+      if (fileNames === undefined) {
+        console.log('No file selected')
+      } else {
+        console.log(event)
+        console.log(fileNames)
+        event.sender.send('selected-files', fileNames)
+        // ipc.send('files')
+        // sceneController.addModel(fileNames[0])
+      }
+    })
 })

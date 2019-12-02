@@ -91,6 +91,20 @@ canvas {
     display: inline-block;
 }
 
+.toolbar-group {
+    padding-left: 0px;
+}
+.toolbar-group::before {
+    content: 'asd';
+    color: #ffffff00;
+    background-color: darkgray;
+    display: inline-block;
+    width: 2px;
+    height: 52px;
+    transform: translateY(-4px);
+    /* margin-right: 4px; */
+}
+
 .button {
     background-color: white;
     height: 44px;
@@ -116,9 +130,3 @@ canvas {
     border-bottom: 2px solid white;
 }
 
-.seperator::after {
-    margin: 0px 23px;
-    width: 2px;
-    background-color: darkgray;
-    height: 100%;
-}

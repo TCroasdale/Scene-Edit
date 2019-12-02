@@ -1,4 +1,7 @@
 var UIController = function (transformController) {
+  const ipc = require('electron').ipcRenderer
+  //   const fs = require('fs')
+
   var translateBtn = document.getElementById('tool-translate-btn')
   var rotateBtn = document.getElementById('tool-rotate-btn')
   var scaleBtn = document.getElementById('tool-scale-btn')
@@ -9,6 +12,8 @@ var UIController = function (transformController) {
   var hideToolbarBtn = document.getElementById('tool-hide-btn')
   var inspector = document.getElementById('inspector-container')
   var hideInspectorBtn = document.getElementById('inspector-hide-btn')
+
+  var addObjectBtn = document.getElementById('tool-addobject-btn')
 
   var currGridSize = 0
   var translateGrids = [1, 2, 5, 10, 25, 50]
@@ -55,6 +60,10 @@ var UIController = function (transformController) {
       transformController.setTranslationSnap(0)
       gridToggleBtn.textContent = 0
     }
+  })
+
+  addObjectBtn.addEventListener('click', () => {
+    ipc.send('open-file-dialog')
   })
 
   return {

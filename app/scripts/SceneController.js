@@ -1,5 +1,7 @@
 var THREE = window.THREE
 require('three/examples/js/controls/TransformControls.js')
+require('three/examples/js/loaders/GLTFLoader.js')
+const ipc = require('electron').ipcRenderer
 
 var SceneController = function () {
   var mScene
@@ -43,6 +45,18 @@ var SceneController = function () {
       mTransformController.detach()
     }
   }
+  var addModel = function (path) {
+    const gltfLoader = new THREE.GLTFLoader()
+    gltfLoader.load(path, (gltf) => {
+      const model = gltf.scene
+      console.log(model)
+      mScene.add(model)
+    })
+  }
+  ipc.on('selected-files', (evt, data) => {
+    const path = data.filePaths[0]
+    addModel(path)
+  })
 
   return {
     scene: mScene,
@@ -68,6 +82,8 @@ var SceneController = function () {
       var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
       var cube = new THREE.Mesh(geometry, material)
       mScene.add(cube)
+      var light = new THREE.AmbientLight(0xffffff) // soft white light
+      mScene.add(light)
 
       window.addEventListener('mousemove', onMouseMove, false)
       mRenderer.domElement.addEventListener('click', onClick, false)
@@ -77,7 +93,7 @@ var SceneController = function () {
       mTransformController.addEventListener('dragging-changed', function (event) {
         mCameraController.setControlEnabled(!event.value)
       })
-      mUIController = new window.UIController(mTransformController)
+      mUIController = new window.UIController(mTransformController, this)
       console.log(mUIController)
 
       mScene.add(mTransformController)
