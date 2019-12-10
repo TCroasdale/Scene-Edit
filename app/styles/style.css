@@ -35,15 +35,30 @@ canvas {
 }
 
 #inspector-container #inspector-hide-btn {
-    position: relative;
+    position: absolute;
+    display: inline-block;
     height: 100%;
     top: 0px;
     left: -4px;
     width: 16px;
+    margin-right: 0;
     transition: transform 0.1s linear;
 }
 
-
+#inspector-scene-view {
+    display: inline-block;
+    width: 90%;
+    margin-top: 12px;
+    margin-left: 28px;
+    border-left: 2px solid darkgray;
+    border-top: 2px solid darkgray;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    background-color: lightgray;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: 15rem;
+}
 
 #toolbar-container {
     margin: 0;
@@ -56,6 +71,8 @@ canvas {
     height: 48px;
     width: 50%;
     
+    user-select: none;
+
     background-color: lightgray;
     transition: top 0.1s linear, bottom 0.1s linear;
 }
@@ -128,5 +145,26 @@ canvas {
     border-top: 2px solid darkgray;
     border-right: 2px solid white;
     border-bottom: 2px solid white;
+}
+
+.heierarchy-container {
+    padding-left: 4px;
+}
+
+.heierarchy-item {
+    list-style: none;
+    padding: 0;
+    padding-top: 4px;
+    margin: 0;
+}
+.heierarchy-item.selected{
+    background-color: lightsteelblue;
+}
+
+.heierarchy-item:before {
+    display: inline;
+    margin-right: 8px;
+    color: darkgray;
+    content: "\25B6";
 }
 

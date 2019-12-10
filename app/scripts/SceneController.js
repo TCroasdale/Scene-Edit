@@ -17,6 +17,8 @@ var SceneController = function () {
   var mSelectedObject
   var mTransformController
 
+  var mObjectLookupDict = {}
+
   var animate = function () {
     const delta = mClock.getDelta()
     window.requestAnimationFrame(animate)
@@ -45,12 +47,35 @@ var SceneController = function () {
       mTransformController.detach()
     }
   }
+
+  var buildHeierarchy = function (obj) {
+    const childNodes = []
+    for (let i = 0; i < obj.children.length; i++) {
+      const node = obj.children[i]
+      if (node.type === 'Mesh') {
+        const c = buildHeierarchy(node)
+        childNodes.push({ name: node.name, id:node.id, children: c })
+      }
+    }
+
+    return childNodes
+  }
+
+  var selectObject = function(uuid) {
+    console.log(mObjectLookupDict)
+    mTransformController.attach(mObjectLookupDict[uuid].object)
+  }
+
   var addModel = function (path) {
     const gltfLoader = new THREE.GLTFLoader()
     gltfLoader.load(path, (gltf) => {
-      const model = gltf.scene
-      console.log(model)
+      const model = gltf.scene.children[0]
       mScene.add(model)
+
+      const objectTag = model.id
+      mObjectLookupDict[objectTag] = model
+      const heierarchy = { name: 'root', id: objectTag, children: buildHeierarchy(mScene) }
+      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) =>{ selectObject(uuid) })
     })
   }
   ipc.on('selected-files', (evt, data) => {
@@ -82,6 +107,7 @@ var SceneController = function () {
       var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
       var cube = new THREE.Mesh(geometry, material)
       mScene.add(cube)
+      mObjectLookupDict[cube.id] = cube
       var light = new THREE.AmbientLight(0xffffff) // soft white light
       mScene.add(light)
 
@@ -89,14 +115,14 @@ var SceneController = function () {
       mRenderer.domElement.addEventListener('click', onClick, false)
 
       mTransformController = new THREE.TransformControls(mCameraController.getCamera(), mRenderer.domElement)
-      // control.addEventListener( 'change', render );
       mTransformController.addEventListener('dragging-changed', function (event) {
         mCameraController.setControlEnabled(!event.value)
       })
-      mUIController = new window.UIController(mTransformController, this)
-      console.log(mUIController)
-
       mScene.add(mTransformController)
+      mUIController = new window.UIController(mTransformController, this)
+
+      const heierarchy = { name: 'root', children: buildHeierarchy(mScene) }
+      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) =>{ selectObject(uuid) })
     },
     startRenderLoop: () => {
       animate()

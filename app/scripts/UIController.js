@@ -13,6 +13,8 @@ var UIController = function (transformController) {
   var inspector = document.getElementById('inspector-container')
   var hideInspectorBtn = document.getElementById('inspector-hide-btn')
 
+  var heierarchyRoot = document.getElementById('heierarchy-root')
+
   var addObjectBtn = document.getElementById('tool-addobject-btn')
 
   var currGridSize = 0
@@ -66,13 +68,35 @@ var UIController = function (transformController) {
     ipc.send('open-file-dialog')
   })
 
+  var buildHeierachyNode = function (DOMNode, element, selectFN) {
+    DOMNode.textContent = element.name
+    for (let i = 0; i < element.children.length; i++) {
+      const newElem = document.createElement('li')
+      newElem.classList.add('heierarchy-item')
+      newElem.addEventListener('click', function (e) {
+        console.log(element.children[i])
+        selectFN(element.children[i].id)
+        const allElems = document.querySelectorAll('.heierarchy-item') 
+        for (let j = 0; j < allElems.length; j++) {
+          allElems[j].classList.remove('selected')
+        }
+         console.log()//.classList.remove('selected'))
+        newElem.classList.add('selected')
+      })
+
+      const newNode = DOMNode.appendChild(newElem)
+      buildHeierachyNode(newNode, element.children[i], selectFN)
+    }
+  }
+
   return {
-    setTranslateFN: (fn) => { onSwitchToTranslate = fn },
-    setRotateFN: (fn) => { onSwitchToRotate = fn },
-    setScaleFN: (fn) => { onSwitchToScale = fn },
     showInspector: () => {
       inspector.classList.remove('hidden')
       hideInspectorBtn.textContent = hideInspectorBtn.textContent === '<' ? '>' : '<'
+    },
+    rebuildHeierarchyUI: (newHeierarchy, cb) => {
+      heierarchyRoot.innerHTML = ''
+      buildHeierachyNode(heierarchyRoot, newHeierarchy, cb)
     }
   }
 }
