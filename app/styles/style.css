@@ -157,8 +157,12 @@ canvas {
     padding-top: 4px;
     margin: 0;
 }
-.heierarchy-item.selected{
+.heierarchy-item.selected {
     background-color: lightsteelblue;
+}
+
+li.heierarchy-item li.heierarchy-item {
+    margin-left: 24px;
 }
 
 .heierarchy-item:before {

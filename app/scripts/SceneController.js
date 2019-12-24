@@ -54,15 +54,16 @@ var SceneController = function () {
       const node = obj.children[i]
       if (node.type === 'Mesh') {
         const c = buildHeierarchy(node)
-        childNodes.push({ name: node.name, id:node.id, children: c })
+        childNodes.push({ name: node.name, id: node.id, children: c })
       }
     }
 
     return childNodes
   }
 
-  var selectObject = function(uuid) {
+  var selectObject = function (uuid) {
     console.log(mObjectLookupDict)
+    mSelectedObject = mObjectLookupDict[uuid].object
     mTransformController.attach(mObjectLookupDict[uuid].object)
   }
 
@@ -70,12 +71,17 @@ var SceneController = function () {
     const gltfLoader = new THREE.GLTFLoader()
     gltfLoader.load(path, (gltf) => {
       const model = gltf.scene.children[0]
-      mScene.add(model)
+      if (mSelectedObject !== undefined) {
+        mSelectedObject.add(model)
+      } else {
+        mScene.add(model)
+      }
 
       const objectTag = model.id
       mObjectLookupDict[objectTag] = model
       const heierarchy = { name: 'root', id: objectTag, children: buildHeierarchy(mScene) }
-      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) =>{ selectObject(uuid) })
+      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) => { selectObject(uuid) })
+      console.log(heierarchy)
     })
   }
   ipc.on('selected-files', (evt, data) => {
@@ -122,7 +128,7 @@ var SceneController = function () {
       mUIController = new window.UIController(mTransformController, this)
 
       const heierarchy = { name: 'root', children: buildHeierarchy(mScene) }
-      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) =>{ selectObject(uuid) })
+      mUIController.rebuildHeierarchyUI(heierarchy, (uuid) => { selectObject(uuid) })
     },
     startRenderLoop: () => {
       animate()

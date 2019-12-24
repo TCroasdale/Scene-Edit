@@ -76,11 +76,11 @@ var UIController = function (transformController) {
       newElem.addEventListener('click', function (e) {
         console.log(element.children[i])
         selectFN(element.children[i].id)
-        const allElems = document.querySelectorAll('.heierarchy-item') 
+        const allElems = document.querySelectorAll('.heierarchy-item')
         for (let j = 0; j < allElems.length; j++) {
           allElems[j].classList.remove('selected')
         }
-         console.log()//.classList.remove('selected'))
+        console.log()// .classList.remove('selected'))
         newElem.classList.add('selected')
       })
 
