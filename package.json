@@ -4,7 +4,7 @@
   "description": "An Electron App for Editing Scenes",
   "main": "main.js",
   "dependencies": {
-    "electron": "^7.1.2",
+    "electron": "^7.2.4",
     "material-design-icons": "^3.0.1",
     "remote": "^0.2.6",
     "standard": "^14.3.1",
